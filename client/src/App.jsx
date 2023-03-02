@@ -1,10 +1,18 @@
 import React from 'react'
+import {createBrowserRouter, RouterProvider, Route, Link} from 'react-router-dom';
+import Routes from './routes/Routes';
 
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Routes />
+    }
+])
 const App = () => {
   return (
-    <div>
-      <h1 style={{textAlign: 'center'}}>Welcome to Savior Trello</h1>
-    </div>
+    <>
+    <RouterProvider router={router} />
+    </>
   )
 }
 

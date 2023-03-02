@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-
+mongoose.set('strictQuery', true);
 const mongodbUrl = process.env.MONGODB_URI;
-const dbConnection = () =>{
+module.exports.dbConnection = () =>{
     mongoose.connect(mongodbUrl)
     .then(() =>{
         console.log('database is connected');
