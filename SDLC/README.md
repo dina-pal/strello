@@ -4,7 +4,6 @@
 
 **Static Pages**
 - Home -> Route - /
-- About -- /about
 
 
 **API Routes**
