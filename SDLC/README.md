@@ -4,6 +4,12 @@
 
 **Static Pages**
 - Home -> Route - /
+- Signup -> Route - /sign-up
+- Login -> Route - /login
+
+
+**App Routes**
+
 
 
 **API Routes**
