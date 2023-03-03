@@ -13,7 +13,7 @@ module.exports.middleware = [
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
- * @returns {Object} Token Payload {payload} will be returned. 
+ * @returns {Object} Token Payload {payload} will be returned.
  */
 module.exports.authMiddleware = async (req, res, next) => {
     const token = req.cookies.jwt_sign_token;

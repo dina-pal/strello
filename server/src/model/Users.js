@@ -1,22 +1,34 @@
-const mongoose = require('mongoose');
-const {isEmail} = require('validators');
-const userSchema = mongoose.Schema({
+const {Schema, model} = require('mongoose');
+const {isEmail} = require('validator');
+const bcrypt = require('bcrypt');
+
+const userSchema = Schema({
     name: {
-        typeof: 'string',
+        type: 'string',
         required: [true, 'Username is required'],
     },
     email: {
-        typeof: 'string',
+        type: 'string',
         required: [true, 'Emails address is required'],
         validate: [isEmail, 'Please enter a valid email address'],
         unique: true,
     },
     password:{
-        typeof: 'string',
-        required: [true, 'Password is required']
+        type: 'string',
+        required: [true, 'Password is required'],
+        minlength: [6, '6 or more characters required']
     },
     avatar: {
-        typeof: 'string'
+        type: 'string'
+    },
+    activated:{
+        type: 'boolean',
+        default: false,
+    },
+    role:{
+        type: 'string',
+        enum: ['admin', 'user'],
+        default: 'user',
     },
     boards: [
         {
@@ -29,5 +41,28 @@ const userSchema = mongoose.Schema({
     timestamps: true
 });
 
-const Users = mongoose.model('users', userSchema);
+
+// Hash password before save it to the database.
+userSchema.pre('save', function(next){
+    bcrypt.genSalt(10, (err, salt) =>{
+        if(err) return next(err);
+        bcrypt.hash(this.password, salt, (err, hash) =>{
+            if(err) return next(err);
+            this.password = hash;
+            next();
+        })
+    });
+})
+
+
+// Login password compare
+userSchema.methods.comparePassword = function(password, next){
+    bcrypt.compare(password, this.password, (err, isMatch) =>{
+        if(err) return next(err);
+        next(null, isMatch);
+    });
+}
+
+
+const Users = model('users', userSchema);
 module.exports = Users;

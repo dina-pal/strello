@@ -1,5 +1,7 @@
 const path = require('path');
 const express = require('express');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const { dotEnvConfig } = require('./src/config/config');
 const {middleware} = require('./src/middleware');
 dotEnvConfig();
@@ -14,8 +16,9 @@ const port = process.env.PORT || 8000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup Middleware
+app.use(helmet());
 app.use(middleware);
-
+app.use(cookieParser());
 // Router
 app.use('/api/v1/', require('./src/routes/api'));
 app.use('/', require('./src/routes/web'));
