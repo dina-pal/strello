@@ -18,7 +18,7 @@ module.exports.middleware = [
 module.exports.authMiddleware = async (req, res, next) => {
     const token = req.cookies.jwt_sign_token;
     if(token === undefined) {
-       return res.redirect('/home')
+       return res.redirect('/home');
     }else{
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         req.payload = payload;
